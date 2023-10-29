@@ -57,9 +57,9 @@ func (args HttpRequest) Do() (*http.Response, error) {
 	return checkStatusCode(response)
 }
 
-func parseJson(resp *http.Response) (map[string]interface{}, error) {
+func parseJson(resp *http.Response) (map[string]any, error) {
 	defer resp.Body.Close()
-	var result map[string]interface{}
+	var result map[string]any
 	err := json.NewDecoder(resp.Body).Decode(&result)
 	if err != nil {
 		return nil, fmt.Errorf("error decoding response JSON: %w", err)
@@ -67,11 +67,11 @@ func parseJson(resp *http.Response) (map[string]interface{}, error) {
 	return result, nil
 }
 
-func ParseJson(resp *http.Response) (map[string]interface{}, error) {
+func ParseJson(resp *http.Response) (map[string]any, error) {
 	return parseJson(resp)
 }
 
-func ParseJsonFatal(resp *http.Response) map[string]interface{} {
+func ParseJsonFatal(resp *http.Response) map[string]any {
 	result, err := parseJson(resp)
 	if err != nil {
 		log.Fatalf("err decoding response JSON : '%v'", err)

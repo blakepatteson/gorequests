@@ -1,6 +1,8 @@
 # Go `requests` Package
 
-A simple and intuitive HTTP client for Go, inspired by Python's popular `requests` module. This package aims to provide an easy-to-use interface for making HTTP requests in Go.
+A simple and intuitive HTTP client for Go, inspired by Python's popular [`requests`](https://pypi.org/project/requests/) module.
+
+This package aims to provide an easy-to-use interface for making HTTP requests in Go, abstracting away much of the boilerplate of the standard library.
 
 ## Installation
 
@@ -29,27 +31,33 @@ func main() {
 		Endpoint:    "https://api.example.com/data",
 	}.Do()
 	if err != nil {
-		log.Fatalf("Error : %v", err)
+		log.Fatalf("err with 'GET' request : %v", err)
 	}
 
 	body, err := requests.ParseJson(resp)
-    if err != nil{
-        log.Fatalf("Error : %v", err)
+	if err != nil {
+		fmt.Printf("err parsing JSON : %v", err)
+		// do something with the error
     }
-	fmt.Printf("Response : %+v\n", body)
+	fmt.Printf("Response Body : %+v\n", body)
 }
 ```
 
 ## Making a POST request with JSON
 
 ```go
-out, err := requests.HttpRequest{
-	VerbHTTP:    "POST",
-	Endpoint:    "https://api.example.com/data",
-	JSON:        []byte(`{"key": "value"}`),
-	ContentType: "application/json",
-}.Do()
-fmt.Printf("out : '%v'", out)
+func main() {
+	out, err := requests.HttpRequest{
+		VerbHTTP:    "POST",
+		Endpoint:    "https://api.example.com/data",
+		JSON:        []byte(`{"key": "value"}`),
+	}.Do()
+	fmt.Printf("out : '%v'", out)
+	// if you just want the json, call the 'Fatal' variant
+	// will crash if the parseJson err != nil (for less boilerplate)
+	fmt.Printf("Response Body : '%+v\n", requests.ParseJsonFatal(resp))
+}
+
 ```
 
 ## Setting Auth
@@ -57,13 +65,13 @@ fmt.Printf("out : '%v'", out)
 For bearer token :
 
 ```
-args.Auth = "Bearer YOUR_TOKEN_HERE"
+req.Auth = "Bearer YOUR_TOKEN_HERE"
 ```
 
 For basic auth :
 
 ```
-args.Auth = "username:password"
+req.Auth = "username:password"
 ```
 
 ## Testing
