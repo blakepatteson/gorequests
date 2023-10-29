@@ -14,7 +14,7 @@ go get github.com/blakepatteson/requests
 
 Making a GET request
 
-```
+```go
 package main
 
 import (
@@ -42,7 +42,7 @@ func main() {
 
 ## Making a POST request with JSON
 
-```
+```go
 out, err := requests.HttpRequest{
 	VerbHTTP:    "POST",
 	Endpoint:    "https://api.example.com/data",
