@@ -9,7 +9,7 @@ This package aims to provide an easy-to-use interface for making HTTP requests i
 To install the `requests` package, use the standard `go get`:
 
 ```bash
-go get github.com/blakepatteson/requests
+go get github.com/blakepatteson/gorequests
 ```
 
 ## Usage
@@ -47,12 +47,15 @@ func main() {
 
 ```go
 func main() {
-	out, err := requests.HttpRequest{
-		VerbHTTP:    "POST",
-		Endpoint:    "https://api.example.com/data",
-		JSON:        []byte(`{"key": "value"}`),
+	resp, err := requests.HttpRequest{
+		VerbHTTP: "POST",
+		Endpoint: "https://api.example.com/data",
+		JSON:     []byte(`{"key": "value","anotherKey":"anotherValue"}`),
 	}.Do()
-	fmt.Printf("out : '%v'", out)
+	if err != nil {
+		fmt.Printf("err with post request : '%v'", err)
+	}
+	fmt.Printf("resp : '%v'\n", resp)
 	// if you just want the json, call the 'Fatal' variant
 	// will crash if the parseJson err != nil (for less boilerplate)
 	fmt.Printf("Response Body : '%+v\n", requests.ParseJsonFatal(resp))

@@ -58,9 +58,12 @@ func (args HttpRequest) Do() (*http.Response, error) {
 }
 
 func parseJson(resp *http.Response) (map[string]any, error) {
-	defer resp.Body.Close()
+	if resp == nil {
+		return nil, fmt.Errorf("err - resp is nil : '%v'", resp)
+	}
 	var result map[string]any
 	err := json.NewDecoder(resp.Body).Decode(&result)
+	defer resp.Body.Close()
 	if err != nil {
 		return nil, fmt.Errorf("error decoding response JSON: %w", err)
 	}
