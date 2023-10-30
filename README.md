@@ -53,7 +53,7 @@ func main() {
 		JSON:     []byte(`{"key": "value","anotherKey":"anotherValue"}`),
 	}.Do()
 	if err != nil {
-		fmt.Printf("err with post request : '%v'", err)
+		fmt.Printf("err with post request : '%v'\n", err)
 	}
 	fmt.Printf("resp : '%v'\n", resp)
 	// if you just want the json, call the 'Fatal' variant
